@@ -23,7 +23,8 @@ def gerar_prompt(nome_produto, preco, estilo_visual):
 # Função para gerar imagem com DALL-E 3
 def gerar_imagem_dalle(prompt):
     try:
-        response = openai.Image.create(
+        response = openai.images.generate(
+            model="dall-e-3",
             prompt=prompt,
             n=1,
             size="1024x1024"
