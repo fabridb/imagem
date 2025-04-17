@@ -1,6 +1,5 @@
 import streamlit as st
 import openai
-import base64
 
 # Configurar a chave da API da OpenAI (recomenda usar secret manager em produção)
 openai.api_key = st.secrets["OPENAI_API_KEY"] if "OPENAI_API_KEY" in st.secrets else "nop"
