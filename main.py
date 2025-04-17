@@ -5,7 +5,6 @@ import openai
 openai.api_key = st.secrets["OPENAI_API_KEY"] if "OPENAI_API_KEY" in st.secrets else "sua-chave-aqui"
 
 # Função para gerar o prompt
-
 def gerar_prompt(nome_produto, preco, estilo_visual):
     return (
         f"Crie uma imagem publicitária de um {nome_produto} sobre um prato branco, com acabamento artesanal, em estilo {estilo_visual}. "
@@ -13,7 +12,7 @@ def gerar_prompt(nome_produto, preco, estilo_visual):
         f"Adicione o texto {nome_produto.title()} na parte superior com fonte serifada elegante, e destaque o preço R${preco:.2f} no canto inferior direito."
     )
 
-# Função para gerar imagem com DALL·E 3 (corrigido para openai >= 1.0.0)
+# Função para gerar imagem com DALL·E 3 (compatível com openai >= 1.12.0)
 def gerar_imagem_dalle(prompt):
     try:
         response = openai.images.generate(
@@ -21,7 +20,8 @@ def gerar_imagem_dalle(prompt):
             prompt=prompt,
             size="1024x1024"
         )
-        return response.data[0].url
+        image_url = response.data[0].url  # A nova API retorna dessa forma
+        return image_url
     except Exception as e:
         return str(e)
 
