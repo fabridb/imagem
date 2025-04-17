@@ -46,7 +46,7 @@ estilo = st.selectbox("Estilo visual", ["rústico", "moderno clean", "editorial"
 foto = st.file_uploader("Envie uma foto do produto (opcional)", type=["jpg", "png", "jpeg"])
 
 # Geração do prompt e imagem
-if st.button("Gerar Imagem com IA"):
+if st.button("Gerar Imagem com IAss"):
     if not nome or not preco:
         st.error("Por favor, preencha o nome do produto e o preço.")
     else:
