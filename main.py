@@ -12,28 +12,29 @@ def gerar_prompt(nome_produto, preco, estilo_visual):
         f"Adicione o texto {nome_produto.title()} na parte superior com fonte serifada elegante e destaque o preço R${preco} no canto inferior direito."
     )
 
-# Função para gerar imagem com DALL·E (utilizando a API estável)
+# Função para gerar imagem com DALL·E 3 (openai>=1.0.0)
 def gerar_imagem_dalle(prompt):
     try:
-        response = openai.Image.create(
+        response = openai.images.generate(
+            model="dall-e-3",
             prompt=prompt,
-            n=1,
             size="1024x1024"
         )
-        return response["data"][0]["url"]
+        # No openai>=1.0.0, o retorno está em response.data
+        return response.data[0].url
     except Exception as e:
         return str(e)
 
 # Interface com Streamlit
 st.set_page_config(page_title="Gerador de Imagens - Padaria", layout="centered")
-st.title("Gerador Visual para Produtos de Padaria")
-st.markdown("Crie imagens profissionais de produtos com base em textos descritivos.")
+st.title("Gerador Visual para Produtos de Padaria.")
+st.markdown("Crie imagens profissionais de produtos a partir de descrições.")
 
 # Entradas do usuário
 nome = st.text_input("Nome do produto", "Bolo de Pamonha")
 preco = st.text_input("Preço (R$)", "7,00")
 estilo = st.selectbox("Estilo visual", ["rústico", "moderno clean", "editorial"])
-foto = st.file_uploader("Envie uma foto do produto", type=["jpg", "png", "jpeg"])
+foto = st.file_uploader("Envie uma foto do produto (opcional)", type=["jpg", "png", "jpeg"])
 
 # Geração do prompt e imagem
 if st.button("Gerar Imagem com IA"):
