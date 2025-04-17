@@ -9,7 +9,7 @@ def gerar_prompt(nome_produto, preco, estilo_visual):
     return (
         f"Crie uma imagem publicitária de um {nome_produto} sobre um prato branco, com acabamento artesanal, em estilo {estilo_visual}. "
         f"Utilize luz suave e fundo desfocado de tom neutro. Inclua vapores saindo do produto, destacando que está quente. "
-        f"Adicione o texto {nome_produto.title()} na parte superior com fonte serifada elegante, e destaque o preço R${preco:.2f} no canto inferior direito."
+        f"Adicione o texto {nome_produto.title()} na parte superior com fonte serifada elegante, e destaque o preço R${preco} no canto inferior direito."
     )
 
 # Função para gerar imagem com DALL·E 3 (compatível com openai >= 1.12.0)
@@ -31,8 +31,8 @@ st.title("Gerador Visual para Produtos")
 st.markdown("Crie imagens profissionais de produtos com base em fotos simples.")
 
 # Entradas do usuário
-nome = st.text_input("Nome do produto", "Bolo de Pamonha")
-preco = st.number_input("Preço (R$)", min_value=0.0, value=7.00, step=0.50)
+nome = st.text_input("Nome do produto", "Bolo Formigueiro")
+preco = st.text_input("Preço (R$)", "7,00")
 estilo = st.selectbox("Estilo visual", ["rústico", "moderno clean", "editorial"])
 foto = st.file_uploader("Envie uma foto do produto", type=["jpg", "png", "jpeg"])
 
