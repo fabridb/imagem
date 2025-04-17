@@ -10,7 +10,7 @@ def gerar_prompt(nome_produto, preco, estilo_visual):
     return (
         f"Crie uma imagem publicitária de um {nome_produto} sobre um prato branco, com acabamento artesanal, em estilo {estilo_visual}. "
         f"Utilize luz suave e fundo desfocado de tom neutro. Inclua vapores saindo do produto, destacando que está quente. "
-        f"Adicione o texto '{nome_produto.title()}' na parte superior com fonte serifada elegante, e destaque o preço R${preco:.2f} no canto inferior direito."
+        f"Adicione o texto: {nome_produto.title()}. na parte superior com fonte serifada elegante, e destaque o preço R${preco:.2f} no canto inferior direito."
     )
 
 # Função para gerar imagem com DALL·E 3 (novo formato para openai >= 1.0.0)
