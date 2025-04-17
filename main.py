@@ -10,7 +10,7 @@ def gerar_prompt(nome_produto, preco, estilo_visual):
     return (
         f"Crie uma imagem publicitária de um {nome_produto} sobre um prato branco, com acabamento artesanal, em estilo {estilo_visual}. "
         f"Utilize luz suave e fundo desfocado de tom neutro. Inclua vapores saindo do produto, destacando que está quente. "
-        f"Adicione o texto '{nome_produto.title()}' na parte superior com fonte serifada elegante, e destaque o preço R${preco:.2f} no canto inferior direito."
+        f"Adicione o texto {nome_produto.title()} na parte superior com fonte serifada elegante, e destaque o preço R${preco:.2f} no canto inferior direito."
     )
 
 # Função para gerar imagem com DALL·E 3 (corrigido para openai >= 1.0.0)
@@ -27,7 +27,7 @@ def gerar_imagem_dalle(prompt):
 
 # Interface com Streamlit
 st.set_page_config(page_title="Gerador de Imagens - Padaria", layout="centered")
-st.title("Gerador Visual para Produtos de Padaria")
+st.title("Gerador Visual para Produtos")
 st.markdown("Crie imagens profissionais de produtos com base em fotos simples.")
 
 # Entradas do usuário
