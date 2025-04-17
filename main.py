@@ -17,7 +17,7 @@ def gerar_prompt(nome_produto, preco, estilo_visual):
 
     No topo da imagem, adicione o texto “{nome_produto.title()}” com tipografia serifada, estilo editorial, discreta e sofisticada.
 
-    Remova ruídos visuais da imagem original (sombra dura, objetos ao fundo, manchas, reflexos).
+    Remova ruídos visuais da imagem original tais como sombra dura, objetos ao fundo, manchas, reflexos.
     """
 
 # Função para gerar imagem com DALL-E 3
