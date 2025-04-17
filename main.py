@@ -2,39 +2,33 @@ import streamlit as st
 import openai
 
 # Configurar a chave da API da OpenAI (recomenda usar secret manager em produção)
-openai.api_key = st.secrets["OPENAI_API_KEY"] if "OPENAI_API_KEY" in st.secrets else "nop"
+openai.api_key = st.secrets["OPENAI_API_KEY"] if "OPENAI_API_KEY" in st.secrets else "sua-chave-aqui"
 
 # Função para gerar o prompt
+
 def gerar_prompt(nome_produto, preco, estilo_visual):
-    return f"""
-    Transforme esta foto realista de um {nome_produto} individual sobre uma bandeja de isopor em uma imagem publicitária de alta qualidade.
+    return (
+        f"Crie uma imagem publicitária de um {nome_produto} sobre um prato branco, com acabamento artesanal, em estilo {estilo_visual}. "
+        f"Utilize luz suave e fundo desfocado de tom neutro. Inclua vapores saindo do produto, destacando que está quente. "
+        f"Adicione o texto '{nome_produto.title()}' na parte superior com fonte serifada elegante, e destaque o preço R${preco:.2f} no canto inferior direito."
+    )
 
-    Estilo de fotografia: {estilo_visual}, luz quente suave com sombras realistas, fundo desfocado (parede ou tecido marrom).
-
-    Adicione vapores saindo do {nome_produto}, indicando que está quente. Use técnicas de food styling para destacar textura e brilho natural.
-
-    Mantenha a composição centralizada e destaque o preço com tipografia elegante no canto inferior direito: R${preco:.2f}.
-
-    No topo da imagem, adicione o texto “{nome_produto.title()}” com tipografia serifada, estilo editorial, discreta e sofisticada.
-
-    Remova ruídos visuais da imagem original tais como sombra dura, objetos ao fundo, manchas, reflexo.
-    """
-
-# Função para gerar imagem com DALL-E 3
+# Função para gerar imagem com DALL·E 3 (novo formato para openai >= 1.0.0)
 def gerar_imagem_dalle(prompt):
     try:
         response = openai.images.generate(
             model="dall-e-3",
             prompt=prompt,
-            n=1,
-            size="1024x1024"
+            size="1024x1024",
+            quality="standard",
+            n=1
         )
-        return response['data'][0]['url']
+        return response.data[0].url
     except Exception as e:
         return str(e)
 
 # Interface com Streamlit
-st.set_page_config(page_title="Gerador de Imagens - Padaria", layout="centered")
+st.set_page_config(page_title="Gerador de Imagens - Padarias", layout="centered")
 st.title("Gerador Visual para Produtos de Padaria")
 st.markdown("Crie imagens profissionais de produtos com base em fotos simples.")
 
@@ -47,16 +41,15 @@ foto = st.file_uploader("Envie uma foto do produto", type=["jpg", "png", "jpeg"]
 # Geração do prompt e imagem
 if st.button("Gerar Imagem com IA"):
     if not foto:
-        st.warning("Por favor, envie uma foto do produto.")
+        st.warning("Por favor, envie uma foto do produto (opcional). A IA não processa a imagem diretamente, apenas gera com base no texto.")
+    prompt = gerar_prompt(nome, preco, estilo)
+    st.subheader("Prompt gerado:")
+    st.code(prompt)
+
+    st.info("Gerando imagem com IA, aguarde alguns segundos...")
+    url = gerar_imagem_dalle(prompt)
+
+    if isinstance(url, str) and url.startswith("http"):
+        st.image(url, caption="Imagem gerada com IA", use_column_width=True)
     else:
-        prompt = gerar_prompt(nome, preco, estilo)
-        st.subheader("Prompt gerado:")
-        st.code(prompt)
-
-        st.info("Gerando imagem com IA, aguarde alguns segundos...")
-        url = gerar_imagem_dalle(prompt)
-
-        if url.startswith("http"):
-            st.image(url, caption="Imagem gerada com IA", use_column_width=True)
-        else:
-            st.error(f"Erro ao gerar imagem: {url}")
+        st.error(f"Erro ao gerar imagem: {url}")
